@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hourly to 15-Minute Rate Converter</title>
+    <script>
+        function convertRate(hourlyRate, discount) {
+            // convert the hourly rate to pence
+            let hourlyRateInPence = hourlyRate * 100;
+            // check if discount is provided or not
+            if(discount){
+                let discountAmount = (hourlyRateInPence * discount) / 100;
+                hourlyRateInPence -= discountAmount;
+            }
+            // divide the hourly rate in pence by 4 to get the 15-minute rate
+            let quarterHourlyRateInPence = hourlyRateInPence / 4;
+
+            // return the 15-minute rate
+            return quarterHourlyRateInPence;
+        }
+        function calculateDailyRate(hourlyRate, discount) {
+            let dailyRate = hourlyRate * 8;
+            // check if discount is provided or not
+            if(discount){
+                let discountAmount = (dailyRate * discount) / 100;
+                dailyRate -= discountAmount;
+            }
+            return dailyRate;
+        }
+    </script>
+</head>
+<body>
+<h1>Hourly to 15-Minute Rate Converter</h1>
+<form>
+    <label>Enter an hourly rate in pounds:</label>
+    <input type="text" id="hourly-rate">
+    <br>
+    <label>Enter discount percentage:</label>
+    <input type="text" id="discount-percentage">
+    <br>
+    <button type="button" onclick="calculate()">Convert</button>
+</form>
+<p id="result"></p>
+<p id="daily-rate"></p>
+<script>
+    function calculate() {
+        let hourlyRate = document.getElementById("hourly-rate").value;
+        let discount = document.getElementById("discount-percentage").value;
+        let quarterHourlyRate = convertRate(hourlyRate, discount);
+        let quarterHourlyRateWithoutDiscount = convertRate(hourlyRate);
+        document.getElementById("result").innerHTML = `15 mins rate with discount of ${discount}% is ${(quarterHourlyRate)} <br> 15 mins rate without discount is ${(quarterHourlyRateWithoutDiscount)}`;
+        let dailyRate = calculateDailyRate(hourlyRate, discount);
+        let dailyRateWithoutDiscount = calculateDailyRate(hourlyRate);
+        document.getElementById("daily-rate").innerHTML = `Daily rate (taking 480 min only) with discount of ${discount}% is ${dailyRate} <br> Daily rate (taking 480 min only) without discount is ${dailyRateWithoutDiscount}`;
+    }
+</script>
+</body>
+</html>
